@@ -83,7 +83,7 @@ def provador():
         tempos_por_etapa = {}  # Dicionário para armazenar os tempos de cada etapa e o tempo total
         
         # URL de onde vai estar o servidor VPN. Se estiver na Google Cloud, trocar "127.0.0.1:5000" pelo endereço público da VM.
-        ip_server_vpn = "https://127.0.0.1:5000"
+        ip_server_vpn = "https://34.123.77.94:5000"
 
         #URL do inicio das interações com o verificador
         inicio_interacao_url = f"{ip_server_vpn}/iniciar_interacao_rodadas"
@@ -105,7 +105,6 @@ def provador():
         inicio_etapa = time.time()
         response = requests.post(inicio_interacao_url, json=data, verify=False)
         tempos_por_etapa['envio_A1_resposta_sigma1'] = time.time() - inicio_etapa # Tempo para enviar A1 e receber o desafio.
-        
         if response.status_code == 200:
             inicio_etapa = time.time()
             sigma = int(response.json()['sigma'])
@@ -123,6 +122,7 @@ def provador():
             inicio_etapa = time.time()
             verify_url = f"{ip_server_vpn}/verificar_resposta"
             response = requests.post(verify_url, json={'resposta_pi': resposta_pi, 'interacao': interacao}, verify=False)
+            
             tempos_por_etapa['envio_resposta_rodada_1'] = time.time() - inicio_etapa # Tempo para enviar a reposta e ter o retorno se está certa ou não
 
             if response.json().get('status') == 1:
@@ -221,10 +221,3 @@ if __name__ == "__main__":
     calcular_media_tempo_total_arquivo("theds_10.json")
     para calcular a média total do tempo registrado.
     """
-
-    
-
-
-
-    
-
