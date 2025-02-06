@@ -16,8 +16,8 @@ def inicializar_bd():
     conexao = mysql.connector.connect(
         host="localhost",
         user="root",
-        password="root"
-        # password="1234"
+        #password="root"
+        password="1234"
     )
     try:
         with conexao.cursor() as cursor:
