@@ -50,6 +50,6 @@ A curva elíptica escolhida foi a **secp256k1**, amplamente conhecida por ser ut
 
 # 3. Considerações Finais
 
-- O protocolo implementado está funcionando conforme especificado. Em uma análise inicial, executando na Google Cloud nos Estados Unidos, o tempo médio para autenticar o usuário é de aproximadamente 2,26 segundos. Quando executado localmente, esse tempo reduz para cerca de 0,075 segundos, demonstrando que o protocolo é bastante eficiente. A maior parte da demora na autenticação ocorre devido à latência de rede.
+- O protocolo implementado está funcionando conforme especificado. Em uma análise inicial, executando na Google Cloud nos Estados Unidos, o tempo médio para autenticar o usuário é de aproximadamente 2,22 segundos sem utilizar TLS para estabelecer um canal seguro, com o canal seguro o tempo sobe para 3,27 segundos. Quando executado localmente, esse tempo reduz para cerca de 0,075 segundos, demonstrando que o protocolo é bastante eficiente. A maior parte da demora na autenticação ocorre devido à latência de rede.
 
 - O código também inclui funções para testar múltiplos usuários simultaneamente utilizando *threads* do Python, gerar arquivos com os tempos de execução, além de calcular médias das execuções. Essas funcionalidades facilitam análises de desempenho e escalabilidade do protocolo.
