@@ -78,7 +78,7 @@ def provador_responde(v, desafio_sigma, Kuser):
 def provador():
     try:
         # Carrega as chaves e IDuser do provador
-        IDuser, Kuser, Quser = carregar_chaves('chaves.json')
+        IDuser, Kuser, Quser = carregar_chaves('user_keys.json')
 
         tempos_por_etapa = {}  # Dicionário para armazenar os tempos de cada etapa e o tempo total
         

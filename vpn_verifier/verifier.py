@@ -4,7 +4,7 @@ import ecdsa
 import json
 from datetime import datetime
 import os
-import banco_de_dados
+import database
 import time
 
 app = Flask(__name__)
@@ -31,7 +31,7 @@ def calcula_IDuser(Quser):
 
 # Busca a chave pública do usuário no banco de dados pelo IDuser    
 def carregar_chave_publica_DB(IDuser):
-    Quser_x, Quser_y = banco_de_dados.dadosUser(IDuser)
+    Quser_x, Quser_y = database.dadosUser(IDuser)
     Quser_x_int = int(Quser_x)
     Quser_y_int = int(Quser_y)
     return Quser_x_int, Quser_y_int

@@ -7,7 +7,7 @@ def conectar():
         user="root",
         password="root",
         #password="1234",
-        database="tcc_zkp"
+        database="zkp_vpn"
     )
 
 
@@ -22,15 +22,15 @@ def inicializar_bd():
     try:
         with conexao.cursor() as cursor:
             # Criar banco de dados se não existir
-            cursor.execute("CREATE DATABASE IF NOT EXISTS tcc_zkp")
+            cursor.execute("CREATE DATABASE IF NOT EXISTS zkp_vpn")
             # Selecionar o banco de dados
-            cursor.execute("USE tcc_zkp")
+            cursor.execute("USE zkp_vpn")
             
             # Verificar se a tabela usuario já existe
             cursor.execute("""
                 SELECT COUNT(*) 
                 FROM information_schema.tables 
-                WHERE table_schema = 'tcc_zkp' AND table_name = 'usuario'
+                WHERE table_schema = 'zkp_vpn' AND table_name = 'usuario'
             """)
             tabela_existe = cursor.fetchone()[0] > 0
             
