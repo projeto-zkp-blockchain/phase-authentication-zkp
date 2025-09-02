@@ -1,55 +1,54 @@
-# 1. Implementação do Protocolo *Zero Knowledge Protocol* (ZKP)
+# 1. Implementation of the *Zero Knowledge Protocol* (ZKP) – Authentication Phase
 
-O código neste repositório refere-se à simulação do processo de autenticação utilizando o protocolo ZKP. No contexto apresentado, o Usuário (Cliente VPN) atua como *provador*, enquanto a VPN (Servidor VPN) desempenha o papel de *verificador*. O código implementa todas as funções e operações necessárias para a análise de desempenho e futuras implementações do protocolo em cenários do mundo real. 
+The code in this repository simulates the authentication process using the ZKP protocol. In the presented context, the User (VPN Client) acts as the *prover*, while the VPN (VPN Server) plays the role of the *verifier*. The code implements all necessary functions and operations for performance analysis and future implementations of the protocol in real-world scenarios.  
 
-O protocolo ZKP implementado utiliza o problema matemático de curvas elípticas. Nesse contexto, algumas notações matemáticas vêm dessa área, como operações com pontos de uma curva elíptica, além de operações como *hash*, módulo e multiplicações. Na imagem a seguir, é apresentada a execução do protocolo em três rodadas, que foi implementada no código.
+The implemented ZKP protocol leverages the mathematical problem of elliptic curves. In this context, some mathematical notations come from this area, such as operations with points on an elliptic curve, as well as operations like *hash*, modulo, and multiplications. The following image illustrates the protocol execution in three rounds, which is implemented in the code.
 
-<img src="https://github.com/user-attachments/assets/d74ed3c3-3319-4b84-9719-b3bed44b20c3" alt="Processo de autenticação do ZKP" width="90%">
+<img width="90%" alt="image" src="https://github.com/user-attachments/assets/f51b48b1-367e-4333-9040-2f17d28c0692" />
 
+# 2. About the Implementation
 
-# 2. Sobre a Implementação
+The chosen elliptic curve was **secp256k1**, widely known for its use in the Bitcoin cryptocurrency and considered secure. Another reason for its choice is that it is widely recognized, with numerous libraries available in almost all programming languages, which can be useful for implementations in other scenarios and languages.
 
-A curva elíptica escolhida foi a **secp256k1**, amplamente conhecida por ser utilizada na criptomoeda Bitcoin, e é considerada segura. Outro motivo para sua escolha é o fato de ser amplamente reconhecida, com inúmeras bibliotecas disponíveis em praticamente todas as linguagens de programação, o que pode ser interessante para implementações em outros cenários e linguagens.
+## 2.1 Package Installation
 
-## 2.1 Instalação Pacotes
-
-- Primeiramente, deve-se ter o Python instalado.
-- As bibliotecas necessárias para a instalação do provador (Pasta **provador_user**) são: `threading`, `requests`, `ecdsa`, `random`, `os`, `json` e `time`. Para isso, basta executar:
+- First, Python must be installed.
+- The libraries required for installing the prover (Folder **user_prover**) are: `threading`, `requests`, `ecdsa`, `random`, `os`, `json`, and `time`. To install them, simply run:
 
 `pip install threading requests ecdsa random os json time`
 
-- As bibliotecas necessárias para a instalação do verificador (Pasta **verificador_vpn**) são: `Flask`, `hashlib`, `ecdsa`, `json`, `datetime` e `os`. Para isso, basta executar:
+- The libraries required for installing the verifier (Folder **vpn_verifier**) are: `Flask`, `hashlib`, `ecdsa`, `json`, `datetime`, and `os`. To install them, simply run:
 
 `pip install Flask hashlib ecdsa json datetime os`
 
-- A versão anterior instala todas as bibliotecas de uma vez. Entretanto, vale destacar que algumas bibliotecas fazem parte dos pacotes padrões do Python. Logo, recomendo que seja instalado apenas as bibliotecas que o compilador indicar, ou seja, apenas execute o comando `pip install nome_biblioteca` para as bibliotecas faltantes indicadas pelo compilador.
+- The previous commands install all libraries at once. However, note that some libraries are part of Python's standard packages. Therefore, it is recommended to install only the libraries indicated by the compiler, i.e., just run `pip install library_name` for the missing libraries highlighted by the compiler.
 
-## 2.2 Instalação Banco de Dados
+## 2.2 Database Installation
 
-- Deve-se ter o banco de dados MySQL instalado. Recomendo o uso do [phpMyAdmin](https://www.phpmyadmin.net/), que foi o utilizado no projeto.
-- O código deste repositório foi configurado para gerar o banco, tabelas e inserir alguns usuários automaticamente no banco de dados. O usuário configurado no código é `root` e a senha também é `root`. Caso o seu banco de dados utilize credenciais diferentes, basta alterar as informações de login no arquivo Python: `verificador_vpn/banco_de_dados.py`.
+- MySQL must be installed. It is recommended to use [phpMyAdmin](https://www.phpmyadmin.net/), which was used in this project.
+- The code in this repository is configured to automatically create the database, tables, and insert some users. The user configured in the code is `root` and the password is also `root`. If your database uses different credentials, simply update the login information in the Python file: `vpn_verifier/database.py`.
 
-### Sobre o phpMyAdmin
+### About phpMyAdmin
 
-- Foram realizados testes tanto de forma local quanto em uma máquina virtual com Ubuntu 20.04 LTS na Google Cloud. Caso deseje realizar algo semelhante, consulte o [Tutorial de Instalação do phpMyAdmin no Ubuntu 20.04 LTS](https://www.digitalocean.com/community/tutorials/how-to-install-and-secure-phpmyadmin-on-ubuntu-20-04-pt).
+- Tests were conducted both locally and on a virtual machine running Ubuntu 20.04 LTS on Google Cloud. If you want to do something similar, refer to the [phpMyAdmin Installation Tutorial on Ubuntu 20.04 LTS](https://www.digitalocean.com/community/tutorials/how-to-install-and-secure-phpmyadmin-on-ubuntu-20-04-pt).
 
-## 2.3 Sobre a Máquina Virtual na Google Cloud
+## 2.3 About the Virtual Machine on Google Cloud
 
-- A máquina virtual utilizada no projeto é a Ubuntu 20.04 LTS. Para aprender como configurá-la, veja este [Tutorial de Instalação](https://youtu.be/MiiexH6Ik4w?si=FD8r5FHKlO09JGiZ).
-- É importante habilitar o *firewall* para permitir o acesso externo à VM. Nesse caso, deve-se habilitar a porta 5000, que é utilizada pelo Flask por padrão. Veja como fazer isso neste [Tutorial sobre como Habilitar a Porta](https://www.youtube.com/watch?v=8NR2q9y9uBo).
+- The virtual machine used in this project is Ubuntu 20.04 LTS. To learn how to set it up, see this [Installation Tutorial](https://youtu.be/MiiexH6Ik4w?si=FD8r5FHKlO09JGiZ).
+- It is important to enable the *firewall* to allow external access to the VM. In this case, port 5000, which is used by Flask by default, should be opened. See how to do this in this [Tutorial on How to Enable the Port](https://www.youtube.com/watch?v=8NR2q9y9uBo).
 
 
-## 2.4 Como Executar o código
+## 2.4 How to Run the Code
 
-### Verificador
+### Verifier
 
-- Na pasta `verificador_vpn` execute `python verificador.py` para Windows ou `python3 verificador.py` para linux, com isso o servidor já vai estar rodando na porta 5000.
+- In the `vpn_verifier` folder, run `python verifier.py` on Windows or `python3 verifier.py` on Linux. This will start the server on port 5000.
 
-### Provador
-- Na pasta `provador_user` execute `python provador.py` para Windows ou `python3 provador.py` para linux, será iniciado o processo de autenticação.
+### Prover
+- In the `user_prover` folder, run `python prover.py` on Windows or `python3 prover.py` on Linux. This will start the authentication process.
 
-# 3. Considerações Finais
+# 3. Final Considerations
 
-- O protocolo implementado está funcionando conforme especificado. Em uma análise inicial, executando na Google Cloud nos Estados Unidos, o tempo médio para autenticar o usuário é de aproximadamente 2,22 segundos sem utilizar TLS para estabelecer um canal seguro, com o canal seguro o tempo sobe para 3,27 segundos. Quando executado localmente, esse tempo reduz para cerca de 0,075 segundos, demonstrando que o protocolo é bastante eficiente. A maior parte da demora na autenticação ocorre devido à latência de rede.
+- The implemented protocol works as specified. In an initial analysis, running on Google Cloud in the United States, the average time to authenticate a user is approximately 2.22 seconds without using TLS to establish a secure channel. With a secure channel, the time increases to 3.27 seconds. When run locally, this time decreases to about 0.075 seconds, demonstrating that the protocol is highly efficient. Most of the authentication delay is due to network latency.
 
-- O código também inclui funções para testar múltiplos usuários simultaneamente utilizando *threads* do Python, gerar arquivos com os tempos de execução, além de calcular médias das execuções. Essas funcionalidades facilitam análises de desempenho e escalabilidade do protocolo.
+- The code also includes functions to test multiple users simultaneously using Python *threads*, generate files with execution times, and calculate averages of the runs. These features facilitate performance and scalability analysis of the protocol.
